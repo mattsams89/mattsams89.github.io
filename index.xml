@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sams Performance Training on Sams Performance Training</title>
-    <link>https://mattsams89.github.io/</link>
+    <link>/</link>
     <description>Recent content in Sams Performance Training on Sams Performance Training</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>Leveraging R to Calculate Acute:Chronic Workload Ratios</title>
-      <link>https://mattsams89.github.io/post/r-acwr-intro/</link>
+      <link>/post/r-acwr-intro/</link>
       <pubDate>Sat, 09 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mattsams89.github.io/post/r-acwr-intro/</guid>
+      <guid>/post/r-acwr-intro/</guid>
       <description>&lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#acutechronic-workload-ratios&#34;&gt;Acute:Chronic Workload Ratios?&lt;/a&gt;&lt;/li&gt;
@@ -34,14 +34,14 @@
 &lt;div id=&#34;acutechronic-workload-ratios&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Acute:Chronic Workload Ratios?&lt;/h2&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;https://mattsams89.github.io/post/1-ACWR/Confused-Gandalf.jpg&#34; style=&#34;width:50.0%&#34; style=&#34;height:50.0%&#34; /&gt;
+&lt;img src=&#34;/post/1-ACWR/Confused-Gandalf.jpg&#34; style=&#34;width:50.0%&#34; style=&#34;height:50.0%&#34; /&gt;
 
 &lt;/div&gt;
 &lt;p&gt;If you’ve been keeping up with the athlete workload monitoring world, you’ve probably heard of the concept of acute:chronic workload ratios (ACWR). In case you haven’t, the concept is relatively simple: how does the recently accumulated training load for an athlete (typically the last 3 - 7 days) compare to their chronic accumulation of training load (previous 3 - 6 weeks of training)? We can create a rolling average of the athlete’s acute and chronic workload values and then divide the acute value by the chronic value to calculate an ACWR. These workloads can come from both external (balls pitched, distance travelled, etc.) and internal (session RPE, heart rate TRIMP, etc.) measures of training load &lt;span class=&#34;citation&#34;&gt;(Ehrmann et al. &lt;a href=&#34;#ref-Ehrmann_2016&#34;&gt;2016&lt;/a&gt;, &lt;span class=&#34;citation&#34;&gt;Hulin et al. (&lt;a href=&#34;#ref-Hulin_2013&#34;&gt;2013&lt;/a&gt;)&lt;/span&gt;, &lt;span class=&#34;citation&#34;&gt;Hulin et al. (&lt;a href=&#34;#ref-Hulin_2015&#34;&gt;2015&lt;/a&gt;)&lt;/span&gt;)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;ACWR values provide a very intuitive snapshot of the training stress being experienced by the athlete and can be used to describe the “preparedness” of the athlete–that is, the relationship between their “fitness” and accumulated fatigue (see &lt;span class=&#34;citation&#34;&gt;(DeWeese et al. &lt;a href=&#34;#ref-DeWeese_2015&#34;&gt;2015&lt;/a&gt;)&lt;/span&gt;). Normal training produces both adaptations in the athlete’s fitness qualities and accumulated fatigue. Unfortunately, fatigue tends to mask complete expression of fitness qualities, so we want to avoid states of high fatigue when the athletes need to produce. Similarly, high levels of fatigue increase injury risk (although recent research &lt;span class=&#34;citation&#34;&gt;(Malone et al. &lt;a href=&#34;#ref-Malone_2018&#34;&gt;2018&lt;/a&gt;)&lt;/span&gt; has highlighted that the relationship is a bit more complicated than that), so we need to be cognizant of our athletes’ fatigue states during the planning and programming process.&lt;/p&gt;
 &lt;p&gt;Like I said, we can use an athlete’s ACWR value to approximate their preparedness, with their acute workload representing “fatigue” and their chronic workload representing “fitness.” An ACWR ~ 1 represents training at a “normal” level, whereas values &amp;gt; 1 and &amp;lt; 1 represent supranormal and below-normal training, respectively. It isn’t necessarily wrong for the athlete’s ACWR value to move into either range; things only become problematic when the athlete is over-fatigued (extremely high ACWR or extended periods &amp;gt; 1) or under-prepared for the rigors of competition (extended periods of detraining / ACWR values &amp;lt; 1). Typically, the “sweet spot” for ACWR is somewhere between 0.8 to 1.5 (the red lines in the plots below). Feel free to check out &lt;span class=&#34;citation&#34;&gt;(Gabbett &lt;a href=&#34;#ref-Gabbett_2016&#34;&gt;2016&lt;/a&gt;)&lt;/span&gt; for a much deeper conversation on this topic.&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;https://mattsams89.github.io/post/1-ACWR/tl-snip.png&#34; /&gt;
+&lt;img src=&#34;/post/1-ACWR/tl-snip.png&#34; /&gt;
 
 &lt;/div&gt;
 &lt;p&gt;Plotting an athlete’s ACWR alongside their daily and weekly training loads can give us an at-a-glance idea of whether our training loads have been appropriate. In the moment, we can use this data along with other monitoring data (e.g. jumps, questionnaires) to modify an athlete’s training. Retrospectively, we can leverage ACWRs and other monitoring data to understand what went wrong (no program is ever perfect) and how we can improve our training program in subsequent seasons. For instance, in the image above it should be pretty clear this athlete’s load profile is the opposite of what we want–a dense pre-season gives way to drastically reduced training loads during non-conference play that result in de-training. As he enters conference play, several double headers and a dense practice schedule (along with some punishment sessions for poor performance…and appearing tired 🤔) lead to a spike in his ACWR followed by an extended period &amp;gt; 1. His load is reduced in an attempt to manage his fatigue from the punishment…week, but he’s hit with another large spike in training (another punishment session) and a heavy week of training leading into the conference tournament. The team lost in the first round.&lt;/p&gt;
@@ -52,7 +52,7 @@
 &lt;p&gt;While the use of ACWR values in athlete monitoring has become very popular in recent years, some recent papers have highlighted the shortcomings of the original ACWR calculation. First, fitness/fatigue degradation aren’t linear–they instead decline in a nonlinear fashion, with fatigue decaying at a faster rate than fitness &lt;span class=&#34;citation&#34;&gt;(DeWeese et al. &lt;a href=&#34;#ref-DeWeese_2015&#34;&gt;2015&lt;/a&gt;, &lt;span class=&#34;citation&#34;&gt;Murray et al. (&lt;a href=&#34;#ref-Murray_2016&#34;&gt;2016&lt;/a&gt;)&lt;/span&gt;)&lt;/span&gt;. Further, the original ACWR calculation assigned the same relative weight to all training load values in both the acute and chronic rolling windows (that is, the load experienced yesterday carries the same weight as a training session from four weeks ago), when it stands to reason that more recently accumulated training will have a greater impact on an athlete’s fitness and fatigue. Enter exponentially-weighted moving averages (EWMA), where a decay function is applied to give greater weight to recently-completed training. At least one paper &lt;span class=&#34;citation&#34;&gt;(Murray et al. &lt;a href=&#34;#ref-Murray_2016&#34;&gt;2016&lt;/a&gt;)&lt;/span&gt; has shown greater sensitivity for EWMA to detect elevated injury risk when compared to the traditional moving average approach.&lt;/p&gt;
 &lt;p&gt;A second hot topic as of late is “mathematical coupling” of the acute and chronic workload values. In case you’re scratching your head like I was the first time I saw the term “mathematical coupling” (I haven’t had a math class in 11 years…and we won’t get started on my quantitative reasoning score on the GRE), &lt;a href=&#34;https://en.wikipedia.org/wiki/Coupling_(probability)&#34;&gt;Wikipedia&lt;/a&gt; has a pretty good explanation of the concept. Basically, by including the acute workload window (the previous 3 - 7 days) in the chronic workload window (the last 21 - 28 days), we create a spurious correlation between the two values that mis-represents the athlete’s “true” ACWR &lt;span class=&#34;citation&#34;&gt;(Lolli et al. &lt;a href=&#34;#ref-Lolli_2017&#34;&gt;2017&lt;/a&gt;)&lt;/span&gt;. For ACWR &amp;lt; 1, coupled ACWR values are greater than their uncoupled counterparts. The ratios are the same at a value of 1, but uncoupled values become greater than coupled values when discussing ACWR &amp;gt; 1. Windt and Gabbett &lt;span class=&#34;citation&#34;&gt;(&lt;a href=&#34;#ref-Windt_2018&#34;&gt;2018&lt;/a&gt;)&lt;/span&gt; argue that while coupling or uncoupling the acute and chronic windows will lead to different interpretations of the ACWR,&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;https://mattsams89.github.io/post/1-ACWR/Coupled-vs-uncoupled.png&#34; /&gt;
+&lt;img src=&#34;/post/1-ACWR/Coupled-vs-uncoupled.png&#34; /&gt;
 
 &lt;/div&gt;
 &lt;p&gt;the fundamental idea is the same: we should avoid large increases in workload, especially in athletes with relatively low chronic training (think returning to play from injury or pre-season camps in collegiate sports). And really, that’s the crux of it all: avoid extremely large changes in training load because you will either overfatigue or underprepare your athlete and increase their risk of injury while decreasing their preparedness. And instead of just focusing on ACWR, we need to consider absolute and relative changes in workload in conjunction with measures of the athletes’ training tolerance (mood-state questionnaires, HRV, resting heart rate, jump testing, etc.). This holistic approach to athlete monitoring will provide us far more context and actionable data than getting caught up on a single metric (the good ole “forest for the trees” approach).&lt;/p&gt;
@@ -62,7 +62,7 @@
 &lt;p&gt;With the history out of the way, let’s get to the meat and potatoes of what I want to discuss: using R to calculate ACWR.&lt;/p&gt;
 &lt;p&gt;If you aren’t familiar with R, you should be. R is a programming language that has been primarily used by statisticians to perform a wide variety of analytical techniques. The power of R comes from its high extensibility via packages–code libraries built to solve a variety of problems. Packages range from data manipulation packages (dplyr, data.table) to plotting (ggplot2, plotly) to dashboard creation (shiny, shinydashboard, flexdashboard) to…well, you get the idea. Basically, if you can dream up an idea, there’s probably an R package for it. And in the off chance it doesn’t exist in R but exists in Python (some of the high-level machine learning stuff), there’s even a package to call Python code in R! Really, R is a jack-of-all-trades, master-of-most language.&lt;/p&gt;
 &lt;p&gt;This means problems that are extremely difficult to solve in Excel can often be conquered through loading a package and calling a single-line function in R. As an example, below is the array formula required to calculate a coupled chronic EWMA in Excel. You &lt;em&gt;might&lt;/em&gt; need a magnifying glass.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://mattsams89.github.io/post/1-ACWR/Excel-array-formula.png&#34; /&gt; See &lt;a href=&#34;https://progressiveathleticperformance.com/free-downloads/&#34;&gt;Adam Sullivan’s site&lt;/a&gt; for the spreadsheet I pulled this formula from.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/1-ACWR/Excel-array-formula.png&#34; /&gt; See &lt;a href=&#34;https://progressiveathleticperformance.com/free-downloads/&#34;&gt;Adam Sullivan’s site&lt;/a&gt; for the spreadsheet I pulled this formula from.&lt;/p&gt;
 &lt;p&gt;Contrast that monster with what you would call in R:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;library(TTR)
 EMA(training_load, n = 1, ratio = 2/(1+28))&lt;/code&gt;&lt;/pre&gt;
@@ -143,7 +143,7 @@ EMA(training_load, n = 1, ratio = 2/(1+28))&lt;/code&gt;&lt;/pre&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;&lt;img src=&#34;https://mattsams89.github.io/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;more-than-one-way-to-skin-a-cat&#34; class=&#34;section level2&#34;&gt;
@@ -378,7 +378,7 @@ ggplot(tl.data, aes(x = training.date)) + geom_col(aes(y = tl)) +
   scale_y_continuous(sec.axis = sec_axis(~./1000, name = &amp;#39;SMA ACWR&amp;#39;)) + 
   theme_bw() + facet_wrap(~athlete) + 
   labs(title = &amp;#39;TL with SMA ACWR&amp;#39;, x = &amp;#39;Training Date&amp;#39;, y = &amp;#39;TL&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://mattsams89.github.io/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Unfortunately, calling &lt;code&gt;rollapplyr&lt;/code&gt; is a bit of a handful compared to &lt;code&gt;SMA&lt;/code&gt;, but whatever. As you can see, we now have individual ACWRs using the “traditional” calculation method. How about using exponentially-weighted moving averages? Thankfully, this is a lot easier since we can use &lt;code&gt;EMA&lt;/code&gt;:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Packages needed
 library(data.table)
@@ -396,7 +396,7 @@ ggplot(tl.data, aes(x = training.date)) + geom_col(aes(y = tl)) +
   scale_y_continuous(sec.axis = sec_axis(~./1000, name = &amp;#39;EMA ACWR&amp;#39;)) + 
   theme_bw() + facet_wrap(~athlete) + 
   labs(title = &amp;#39;TL with EMA ACWR&amp;#39;, x = &amp;#39;Training Date&amp;#39;, y = &amp;#39;TL&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://mattsams89.github.io/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Alternatively, if you want the EMA to accumulate before returning values, you would call:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;tl.data[, ema.acute := EMA(tl, n = 7, ratio = 2/(1+7)), by = .(athlete)]
 tl.data[, ema.chronic := EMA(tl, n = 28, ratio = 2/(1+28)), by = .(athlete)]
@@ -420,7 +420,7 @@ ggplot(tl.data[athlete == &amp;#39;Urja Chaudhry&amp;#39;], aes(x = as.Date(trai
   scale_y_continuous(sec.axis = sec_axis(~./1000, name = &amp;#39;ACWR&amp;#39;)) + 
   labs(title = &amp;#39;ACWR Comparison&amp;#39;, x = &amp;#39;Training Date&amp;#39;, y = &amp;#39;TL&amp;#39;, colour = &amp;#39;Method&amp;#39;) + 
   theme_bw() + theme(legend.position = &amp;#39;bottom&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://mattsams89.github.io/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;2100&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;2100&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Hopefully you notice there are some pretty stark diffferences between the SMA and EMA methods, with the differences in the two EMA approaches mostly disappearing by day 45. This echoes what Windt and Gabbett &lt;span class=&#34;citation&#34;&gt;(&lt;a href=&#34;#ref-Windt_2018&#34;&gt;2018&lt;/a&gt;)&lt;/span&gt; say at the end of their editorial: explicity detail how you’re calculating your ACWRs!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;coupled-vs.uncoupled&#34; class=&#34;section level2&#34;&gt;
@@ -438,7 +438,7 @@ ggplot(tl.data[athlete == &amp;#39;Urja Chaudhry&amp;#39;], aes(x = as.Date(trai
   scale_y_continuous(sec.axis = sec_axis(~./1000, name = &amp;#39;ACWR&amp;#39;)) +
   labs(title = &amp;#39;Coupled vs. Uncoupled&amp;#39;, x = &amp;#39;Training Date&amp;#39;, y = &amp;#39;TL&amp;#39;, colour = &amp;#39;Method&amp;#39;) +
   theme_bw() + theme(legend.position = &amp;#39;bottom&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://mattsams89.github.io/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;2100&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;2100&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;And that’s it. There are some definite differences in the two methods, so again, be consistent in how you choose to perform your analysis.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;wrapping-up&#34; class=&#34;section level2&#34;&gt;
