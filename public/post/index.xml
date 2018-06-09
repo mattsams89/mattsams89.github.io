@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Sams Performance Training</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on Sams Performance Training</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 -0500</lastBuildDate>
+    
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Leveraging R to Calculate Acute:Chronic Workload Ratios</title>
+      <link>/post/r-acwr-intro/</link>
+      <pubDate>Sat, 09 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-acwr-intro/</guid>
+      <description>Acute:Chronic Workload Ratios?An Extremely Hot TopicCalculating ACWR in RThe DataMore Than One Way to Skin a CatCoupled vs. UncoupledWrapping UpCode RecapReferencesAcute:Chronic Workload Ratios?If you’ve been keeping up with the athlete workload monitoring world, you’ve probably heard of the concept of acute:chronic workload ratios (ACWR). In case you haven’t, the concept is relatively simple: how does the recently accumulated training load for an athlete (typically the last 3 - 7 days) compare to their chronic accumulation of training load (previous 3 - 6 weeks of training)?</description>
+    </item>
+    
+  </channel>
+</rss>
