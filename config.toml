@@ -5,7 +5,7 @@
 # End your URL with a `/` trailing slash, e.g. `https://example.com/`.
 baseurl = "https://mattsams89.github.io"
 
-publishDir: "../mattsams89.github.io"
+publishDir = "../mattsams89.github.io"
 
 # Title of your site
 title = "Sams Performance Training"
