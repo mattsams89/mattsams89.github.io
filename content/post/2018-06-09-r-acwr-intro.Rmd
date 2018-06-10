@@ -71,13 +71,13 @@ library(TTR)
 EMA(training_load, n = 1, ratio = 2/(1+28))
 ```
 
-What I did in the above code block is call the ```TTR``` package (a package built for financial analyses) and then call the exponential moving average function (EMA). ```EMA``` requires three pieces of information: the data we're applying the function to, how far to step back from the current data point when applying the decay ratio, and the decay ratio. These correspond to column "E", the formula in column "G", and cell R9 in Adam's spreadsheet I linked above.
+What I did in the above code block is call the ```TTR``` package (a package built for financial analyses) and then call the exponential moving average function (EMA). ```EMA``` requires three pieces of information: the data we're applying the function to, the size of the window to apply the decay ratio to, and the decay ratio. These correspond to column "E", the formula in column "G", and cell R9 in Adam's spreadsheet I linked above.
 
-Granted, things get a bit more complicated when dealing with multiple athletes, but I think you'll agree with me that the R code is still substantially easier to follow than the Excel formula. In this next example, I'm using the package ```data.table``` in addition to the ```TTR``` and ```zoo``` packages to calculate both a traditional ACWR (via simple moving averages) and an exponentially-weighted ACWR. Check back soon because I'll have a video up that discusses the ins and outs of how to use data.table.
+Granted, things get a bit more complicated when dealing with multiple athletes, but I think you'll agree with me that the R code is still substantially easier to follow than the Excel formula. In this next example, I'm using the package ```data.table``` in addition to the ```TTR``` and ```zoo``` packages to calculate both a traditional ACWR (via simple moving averages) and an exponentially-weighted ACWR. Check back soon because I'll have a video up that discusses the ins and outs of how to use ```data.table```.
 
 ### The Data
 
-First, the data:
+First, the [data](/post/1-ACWR/tl-data.csv):
 ```{r, echo=FALSE}
 #Add a link to the github repo above to allow users to download the data
 tl.data <- read.csv('1-ACWR/tl-data.csv')

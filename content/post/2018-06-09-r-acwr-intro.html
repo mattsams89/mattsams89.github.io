@@ -70,11 +70,11 @@ output:
 <p>Contrast that monster with what you would call in R:</p>
 <pre><code>library(TTR)
 EMA(training_load, n = 1, ratio = 2/(1+28))</code></pre>
-<p>What I did in the above code block is call the <code>TTR</code> package (a package built for financial analyses) and then call the exponential moving average function (EMA). <code>EMA</code> requires three pieces of information: the data we’re applying the function to, how far to step back from the current data point when applying the decay ratio, and the decay ratio. These correspond to column “E”, the formula in column “G”, and cell R9 in Adam’s spreadsheet I linked above.</p>
-<p>Granted, things get a bit more complicated when dealing with multiple athletes, but I think you’ll agree with me that the R code is still substantially easier to follow than the Excel formula. In this next example, I’m using the package <code>data.table</code> in addition to the <code>TTR</code> and <code>zoo</code> packages to calculate both a traditional ACWR (via simple moving averages) and an exponentially-weighted ACWR. Check back soon because I’ll have a video up that discusses the ins and outs of how to use data.table.</p>
+<p>What I did in the above code block is call the <code>TTR</code> package (a package built for financial analyses) and then call the exponential moving average function (EMA). <code>EMA</code> requires three pieces of information: the data we’re applying the function to, the size of the window to apply the decay ratio to, and the decay ratio. These correspond to column “E”, the formula in column “G”, and cell R9 in Adam’s spreadsheet I linked above.</p>
+<p>Granted, things get a bit more complicated when dealing with multiple athletes, but I think you’ll agree with me that the R code is still substantially easier to follow than the Excel formula. In this next example, I’m using the package <code>data.table</code> in addition to the <code>TTR</code> and <code>zoo</code> packages to calculate both a traditional ACWR (via simple moving averages) and an exponentially-weighted ACWR. Check back soon because I’ll have a video up that discusses the ins and outs of how to use <code>data.table</code>.</p>
 <div id="the-data" class="section level3">
 <h3>The Data</h3>
-<p>First, the data:</p>
+<p>First, the <a href="/post/1-ACWR/tl-data.csv">data</a>:</p>
 <table>
 <thead>
 <tr class="header">
