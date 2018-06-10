@@ -6,7 +6,7 @@
     <description>Recent content in Homes on Sams Performance Training</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2018</copyright>
+    <copyright>&amp;copy; 2018 Sams Performance Training</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 -0400</lastBuildDate>
     
 	<atom:link href="/home/index.xml" rel="self" type="application/rss+xml" />
@@ -28,6 +28,16 @@
       
       <guid>/home/tags/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/home/about/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 -0400</pubDate>
+      
+      <guid>/home/about/</guid>
+      <description>Biography I&amp;rsquo;m Matt Sams, a sport scientist and strength and conditioning coach based in Johnson City, TN. I&amp;rsquo;ve had the chance to work with athletes in a range of sports, including soccer, basketball, volleyball, canoe/kayak, bobsled, skeleton, and luge.
+My main interests are focused on maximizing athletes&amp;rsquo; performance while minimizing their fatigue and injury risk. To that end, most of my work has been focused on developing and implementing athlete monitoring that provides immediate, actionable data.</description>
     </item>
     
   </channel>
