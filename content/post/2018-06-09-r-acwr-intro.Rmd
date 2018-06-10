@@ -179,7 +179,8 @@ tl.data[, ema.chronic.alt := EMA(tl, n = 28, ratio = 2/(1+28)), by = .(athlete)]
 tl.data[, ema.ACWR.alt := ema.acute.alt/ema.chronic.alt]
 
 #Shift the ACWR values down one day to accurately reflect the effect of the previous day's training
-tl.data[, c('sma.lagged','ema.lagged', 'ema.alt.lagged') := shift(.SD, n = 1, type = 'lag', fill = NA), 
+tl.data[, c('sma.lagged','ema.lagged', 'ema.alt.lagged') := 
+          shift(.SD, n = 1, type = 'lag', fill = NA), 
         .SDcols = c('sma.ACWR','ema.ACWR', 'ema.ACWR.alt'), by = .(athlete)]
 
 #Plot the results
@@ -196,7 +197,7 @@ Hopefully you notice there are some pretty stark diffferences between the SMA an
 
 ## Coupled vs. Uncoupled
 
-If you've read Windt and Gabbett's editorial [-@Windt_2018], they provide an equation to convert coupled ACWRs to uncouple ACWRs:
+If you've read Windt and Gabbett's editorial [-@Windt_2018], they provide an equation to convert coupled ACWRs to uncoupled ACWRs:
 
 $Uncoupled ACWR = \frac{3 * Coupled ACWR}{4 - Coupled ACWR}$
 

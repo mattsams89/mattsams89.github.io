@@ -617,7 +617,8 @@ tl.data[, ema.chronic.alt := EMA(tl, n = 28, ratio = 2/(1+28)), by = .(athlete)]
 tl.data[, ema.ACWR.alt := ema.acute.alt/ema.chronic.alt]
 
 #Shift the ACWR values down one day to accurately reflect the effect of the previous day&#39;s training
-tl.data[, c(&#39;sma.lagged&#39;,&#39;ema.lagged&#39;, &#39;ema.alt.lagged&#39;) := shift(.SD, n = 1, type = &#39;lag&#39;, fill = NA), 
+tl.data[, c(&#39;sma.lagged&#39;,&#39;ema.lagged&#39;, &#39;ema.alt.lagged&#39;) := 
+          shift(.SD, n = 1, type = &#39;lag&#39;, fill = NA), 
         .SDcols = c(&#39;sma.ACWR&#39;,&#39;ema.ACWR&#39;, &#39;ema.ACWR.alt&#39;), by = .(athlete)]
 
 #Plot the results
@@ -633,7 +634,7 @@ ggplot(tl.data[athlete == &#39;Urja Chaudhry&#39;], aes(x = as.Date(training.dat
 </div>
 <div id="coupled-vs.uncoupled" class="section level2">
 <h2>Coupled vs. Uncoupled</h2>
-<p>If you’ve read Windt and Gabbett’s editorial <span class="citation">(<a href="#ref-Windt_2018">2018</a>)</span>, they provide an equation to convert coupled ACWRs to uncouple ACWRs:</p>
+<p>If you’ve read Windt and Gabbett’s editorial <span class="citation">(<a href="#ref-Windt_2018">2018</a>)</span>, they provide an equation to convert coupled ACWRs to uncoupled ACWRs:</p>
 <p><span class="math inline">\(Uncoupled ACWR = \frac{3 * Coupled ACWR}{4 - Coupled ACWR}\)</span></p>
 <p>This post is pretty long in the tooth at this point, so I’m only going to apply this function to my original EMA calculation (n = 1). The same functions will apply for the other ACWR methods.</p>
 <pre class="r"><code>#Uncoupled EMA ACWR calculation

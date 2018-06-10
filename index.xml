@@ -409,7 +409,8 @@ tl.data[, ema.chronic.alt := EMA(tl, n = 28, ratio = 2/(1+28)), by = .(athlete)]
 tl.data[, ema.ACWR.alt := ema.acute.alt/ema.chronic.alt]
 
 #Shift the ACWR values down one day to accurately reflect the effect of the previous day&amp;#39;s training
-tl.data[, c(&amp;#39;sma.lagged&amp;#39;,&amp;#39;ema.lagged&amp;#39;, &amp;#39;ema.alt.lagged&amp;#39;) := shift(.SD, n = 1, type = &amp;#39;lag&amp;#39;, fill = NA), 
+tl.data[, c(&amp;#39;sma.lagged&amp;#39;,&amp;#39;ema.lagged&amp;#39;, &amp;#39;ema.alt.lagged&amp;#39;) := 
+          shift(.SD, n = 1, type = &amp;#39;lag&amp;#39;, fill = NA), 
         .SDcols = c(&amp;#39;sma.ACWR&amp;#39;,&amp;#39;ema.ACWR&amp;#39;, &amp;#39;ema.ACWR.alt&amp;#39;), by = .(athlete)]
 
 #Plot the results
@@ -425,7 +426,7 @@ ggplot(tl.data[athlete == &amp;#39;Urja Chaudhry&amp;#39;], aes(x = as.Date(trai
 &lt;/div&gt;
 &lt;div id=&#34;coupled-vs.uncoupled&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Coupled vs. Uncoupled&lt;/h2&gt;
-&lt;p&gt;If you’ve read Windt and Gabbett’s editorial &lt;span class=&#34;citation&#34;&gt;(&lt;a href=&#34;#ref-Windt_2018&#34;&gt;2018&lt;/a&gt;)&lt;/span&gt;, they provide an equation to convert coupled ACWRs to uncouple ACWRs:&lt;/p&gt;
+&lt;p&gt;If you’ve read Windt and Gabbett’s editorial &lt;span class=&#34;citation&#34;&gt;(&lt;a href=&#34;#ref-Windt_2018&#34;&gt;2018&lt;/a&gt;)&lt;/span&gt;, they provide an equation to convert coupled ACWRs to uncoupled ACWRs:&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(Uncoupled ACWR = \frac{3 * Coupled ACWR}{4 - Coupled ACWR}\)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;This post is pretty long in the tooth at this point, so I’m only going to apply this function to my original EMA calculation (n = 1). The same functions will apply for the other ACWR methods.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Uncoupled EMA ACWR calculation
