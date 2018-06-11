@@ -227,7 +227,7 @@ If you do want to stay in the Microsoft ecosystem, though, you can have your cak
 
 ![](/post/1-ACWR/bi-example.png)
 
-As for which ACWR method is "correct," who knows. I tend to agree with Windt and Gabbett [-@Windt_2018] that we shouldn't get lost in the minutiae of simple vs. exponential vs. coupled vs. uncoupled vs. whatever else this field comes up with. At the end of the day, we need to prescribe training loads in a logical fashion so we don't completely break our athletes: High chronic workloads need to be built slowly over time to prepare our athletes for the worst-case scenario (for us a few years ago, that was three double overtime games in 12 days against teams who all finished in the top 15), and we need to monitor how our athletes are tolerating training through a combination of physical and psychological assessments. Let's worry about the small problems once we get the basics down, yeah?
+As for which ACWR method is "correct," ¯\\\_(ツ)\_/¯. I tend to agree with Windt and Gabbett [-@Windt_2018] that we shouldn't get lost in the minutiae of simple vs. exponential vs. coupled vs. uncoupled vs. whatever else this field comes up with. At the end of the day, we need to prescribe training loads in a logical fashion so we don't completely break our athletes: High chronic workloads need to be built slowly over time to prepare our athletes for the worst-case scenario (for us a few years ago, that was three double overtime games in 12 days against teams who all finished in the top 15), and we need to monitor how our athletes are tolerating training through a combination of physical and psychological assessments. Let's worry about the small problems once we get the basics down, yeah?
 
 ## Code Recap
 
