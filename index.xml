@@ -362,6 +362,9 @@ EMA(training_load, n = 1, ratio = 2/(1+28))&lt;/code&gt;&lt;/pre&gt;
 &lt;/table&gt;
 &lt;p&gt;Now, if you want to wait for the windows to accumulate before returning an ACWR value, disregard what I just said about &lt;code&gt;rollapplyr&lt;/code&gt; and use &lt;code&gt;SMA&lt;/code&gt; instead. I’m honestly not sure what the “appropriate” method is in this case, but seeing as how &lt;code&gt;SMA&lt;/code&gt; would spend ~ 1/3 of the season accumulating before returning an ACWR (college sports, man), I prefer &lt;code&gt;rollapplyr&lt;/code&gt; in this case. This does leave us with the question of how to account for the athletes’ training states coming into the season, but I’ll leave that for another post.&lt;/p&gt;
 &lt;p&gt;Anyway, here’s how I calculated the ACWR values above with &lt;code&gt;rollapplyr&lt;/code&gt;. You’ll notice I’m able to apply these functions to each individual athlete thanks to the &lt;code&gt;data.table&lt;/code&gt; package. I’ll have a video on how that works soon.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2018-06-12 edit:&lt;/strong&gt; I realized I left out a very important piece of information! If you’re looking to copy these functions in the provided dataset or your own data, you’ll need to enable data.table’s functionality on the data prior to using the functions below. That’s accomplished by calling:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tl.data &amp;lt;- data.table(tl.data)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sorry for any confusion!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Packages needed
 library(data.table)
 library(ggplot2)
@@ -378,7 +381,7 @@ ggplot(tl.data, aes(x = training.date)) + geom_col(aes(y = tl)) +
   scale_y_continuous(sec.axis = sec_axis(~./1000, name = &amp;#39;SMA ACWR&amp;#39;)) + 
   theme_bw() + facet_wrap(~athlete) + 
   labs(title = &amp;#39;TL with SMA ACWR&amp;#39;, x = &amp;#39;Training Date&amp;#39;, y = &amp;#39;TL&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Unfortunately, calling &lt;code&gt;rollapplyr&lt;/code&gt; is a bit of a handful compared to &lt;code&gt;SMA&lt;/code&gt;, but whatever. As you can see, we now have individual ACWRs using the “traditional” calculation method. How about using exponentially-weighted moving averages? Thankfully, this is a lot easier since we can use &lt;code&gt;EMA&lt;/code&gt;:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Packages needed
 library(data.table)
@@ -396,7 +399,7 @@ ggplot(tl.data, aes(x = training.date)) + geom_col(aes(y = tl)) +
   scale_y_continuous(sec.axis = sec_axis(~./1000, name = &amp;#39;EMA ACWR&amp;#39;)) + 
   theme_bw() + facet_wrap(~athlete) + 
   labs(title = &amp;#39;TL with EMA ACWR&amp;#39;, x = &amp;#39;Training Date&amp;#39;, y = &amp;#39;TL&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Alternatively, if you want the EMA to accumulate before returning values, you would call:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;tl.data[, ema.acute := EMA(tl, n = 7, ratio = 2/(1+7)), by = .(athlete)]
 tl.data[, ema.chronic := EMA(tl, n = 28, ratio = 2/(1+28)), by = .(athlete)]
@@ -421,7 +424,7 @@ ggplot(tl.data[athlete == &amp;#39;Urja Chaudhry&amp;#39;], aes(x = as.Date(trai
   scale_y_continuous(sec.axis = sec_axis(~./1000, name = &amp;#39;ACWR&amp;#39;)) + 
   labs(title = &amp;#39;ACWR Comparison&amp;#39;, x = &amp;#39;Training Date&amp;#39;, y = &amp;#39;TL&amp;#39;, colour = &amp;#39;Method&amp;#39;) + 
   theme_bw() + theme(legend.position = &amp;#39;bottom&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;2100&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;2100&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Hopefully you notice there are some pretty stark diffferences between the SMA and EMA methods, with the differences in the two EMA approaches mostly disappearing by day 45. This echoes what Windt and Gabbett &lt;span class=&#34;citation&#34;&gt;(&lt;a href=&#34;#ref-Windt_2018&#34;&gt;2018&lt;/a&gt;)&lt;/span&gt; say at the end of their editorial: explicity detail how you’re calculating your ACWRs!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;coupled-vs.uncoupled&#34; class=&#34;section level2&#34;&gt;
@@ -439,7 +442,7 @@ ggplot(tl.data[athlete == &amp;#39;Urja Chaudhry&amp;#39;], aes(x = as.Date(trai
   scale_y_continuous(sec.axis = sec_axis(~./1000, name = &amp;#39;ACWR&amp;#39;)) +
   labs(title = &amp;#39;Coupled vs. Uncoupled&amp;#39;, x = &amp;#39;Training Date&amp;#39;, y = &amp;#39;TL&amp;#39;, colour = &amp;#39;Method&amp;#39;) +
   theme_bw() + theme(legend.position = &amp;#39;bottom&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;2100&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-09-r-acwr-intro_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;2100&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;And that’s it. There are some definite differences in the two methods, so again, be consistent in how you choose to perform your analysis.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;wrapping-up&#34; class=&#34;section level2&#34;&gt;
@@ -461,6 +464,9 @@ library(data.table)
 library(ggplot2)
 library(TTR)
 library(zoo)
+
+# Enabling data.table functionality
+tl.data &amp;lt;- data.table(tl.data)
 
 # Coupled ACWR via simple moving averages
 tl.data[, sma.acute := rollapplyr(tl, 7, mean, partial = TRUE), by = .(athlete)]
