@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/s3-2018-recap/</loc>
+      <lastmod>2018-06-24T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/r-acwr-intro/</loc>
       <lastmod>2018-06-09T00:00:00+00:00</lastmod>
     </url>
@@ -43,7 +52,7 @@
     <url>
     
       <loc>/tags/athlete-monitoring/</loc>
-      <lastmod>2018-06-09T00:00:00+00:00</lastmod>
+      <lastmod>2018-06-24T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -53,6 +62,16 @@
     <url>
     
       <loc>/categories/</loc>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/conferences/</loc>
+      <lastmod>2018-06-24T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -82,6 +101,16 @@
     
       <loc>/</loc>
       <lastmod>2016-04-20T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/sports-science/</loc>
+      <lastmod>2018-06-24T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
