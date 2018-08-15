@@ -11,6 +11,615 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Individualized Athlete Monitoring in R, Part 1</title>
+      <link>/post/r-individual-monitoring-part-1/</link>
+      <pubDate>Thu, 16 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-individual-monitoring-part-1/</guid>
+      <description>&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#getting-back-into-the-swing-of-things&#34;&gt;Getting Back into the Swing of Things&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#statistical-process-control-spc&#34;&gt;Statistical Process Control (SPC)&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#performing-spc-in-r&#34;&gt;Performing SPC in R&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#getting-fancy&#34;&gt;Getting Fancy&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#wrapping-up&#34;&gt;Wrapping Up&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#code-recap&#34;&gt;Code Recap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;getting-back-into-the-swing-of-things&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Getting Back into the Swing of Things&lt;/h2&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/3-Individual_Monitoring/bender.jpg&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;Well, it’s been a hot minute since my last post (whoops!). I’ve been busy with bobsledders and job hunting this summer, but I’ve finally found a bit of time to get back to the ole blog now that bobsled’s summer training is winding down and I’m preparing for an intercontinental move (keep an eye on Twitter for related news).&lt;/p&gt;
+&lt;p&gt;A ton of great papers have come out this summer focused on various aspects of athlete monitoring. One that I particularly enjoyed was “Putting the ‘I’ Back in Team” by Patrick Ward, Aaron Coutts, Ricard Pruna, and Alan McCall &lt;span class=&#34;citation&#34;&gt;[&lt;a href=&#34;#ref-Ward_2018&#34;&gt;6&lt;/a&gt;]&lt;/span&gt;. They didn’t discuss anything groundbreaking, but it was nice to see statistical process control get a bit more love (for additional commentary on SPC, see Sands et al. &lt;span class=&#34;citation&#34;&gt;[&lt;a href=&#34;#ref-Sands_2017&#34;&gt;5&lt;/a&gt;]&lt;/span&gt;) while dancing around the idea of anomaly detection via modeling. The latter has been particularly interesting to me for the last year or so, but I haven’t gotten past the “fiddling stage” in R until the last month. We’ll get deeper into SPC today and will touch on anomaly detection in Part 2.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;statistical-process-control-spc&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Statistical Process Control (SPC)&lt;/h2&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/3-Individual_Monitoring/quality-control.jpg&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;Like many of the other statistical techniques used in sports science, SPC has been borrowed from the business analytics world, specifically manufacturing quality control. The underlying theory of SPC is pretty straightforward–all “processes” possess a certain amount of variation or noise. Some of this variation is idiosyncratic (inherent to the individual process being studied), whereas additional unexplained variation may be introduced through alterations in the process. Processes experiencing normal variation are said to be “in control” or “stable” while a process experiencing random/intermittent unexplained variation outside its norm is considered “out of control.” Perfectly clear? Great!&lt;/p&gt;
+&lt;p&gt;…In reality, that definition probably didn’t make a lot of sense. Let’s try again with a very practical example. The last few years, I’ve used weighted squat jumps (SJ) as a fatigue monitoring tool. My rationale for using weighted SJ came from my thesis and from a handful of papers that have shown SJ height from flight time may be more sensitive to fatigue state than countermovement jump (CMJ) height from flight time &lt;span class=&#34;citation&#34;&gt;[&lt;a href=&#34;#ref-Gathercole_2015&#34;&gt;1&lt;/a&gt;–&lt;a href=&#34;#ref-Sams_2014&#34;&gt;4&lt;/a&gt;]&lt;/span&gt;. Each athlete will have their own “normal”–that is, a day-to-day range they will stay within when under “normal” levels of fatigue and when no training adaptations have occurred (strength changes, etc.). This range represents the athlete’s typical variation in their jump performance and will be inherent to that athlete. Some athletes will have a very tight inter-day variation in jump height (&amp;lt; 1 cm), whereas others may have greater inter-day fluctuations (2 - 4 cm). When the athlete’s jump height is within their normal range, we can say with relative certainty that the &lt;em&gt;process&lt;/em&gt; of their SJ height is “in control.” In the case of using SJ height as a proxy measure of fatigue state, we can assert that the athlete is not experiencing undue levels of fatigue…Well, maybe. Don’t rely on a single metric to solve all of life’s problems. If, however, the athlete’s jump height falls below an arbitrarily set threshold (typically 1 - 2 SD below their average), they can be flagged for deeper analysis and potential intervention as their SJ height is now “out of control.” This suggests they may be experiencing elevated levels of fatigue.&lt;/p&gt;
+&lt;div id=&#34;performing-spc-in-r&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Performing SPC in R&lt;/h3&gt;
+&lt;p&gt;It’s always easier to understand this stuff with visuals. If you’d like to follow along, the data can be found &lt;a href=&#34;/post/3-Individual_Monitoring/jump-data.csv&#34;&gt;here&lt;/a&gt;. Let’s see what we’re working with:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;jumpDate&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;athlete&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;jumpType&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;flightTime&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;session&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Benjamin Babatunde&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.60&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Benjamin Babatunde&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.61&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Joo Garand&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.62&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Joo Garand&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.62&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Steve Galligan&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.57&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Steve Galligan&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.57&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Jungsoo Moua&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.58&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Jungsoo Moua&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.58&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Naadir el-Mahdavi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.63&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Naadir el-Mahdavi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;SJ&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.62&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;BL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;These are real flight time values measured on switch mats, although the athletes’ names have been randomized. The data come from 21 vertical jump testing sessions across a fall season and include 1 “baseline” testing session and 20 in-season testing sessions that were carried out ~ 4 hours before most of the season’s matches. Each athlete completed 2 - 3 trials at each testing session, and the two closest trials were stored in the monitoring database.&lt;/p&gt;
+&lt;p&gt;First things first, we need to obtain session averages for each athlete. I know &lt;code&gt;dplyr&lt;/code&gt; tends to be the go-to for data manipulation, so I’ve included both &lt;code&gt;dplyr&lt;/code&gt; and &lt;code&gt;data.table&lt;/code&gt; (my personal favorite) versions of the code throughout the remainder of the post. One of these days, I’ll get around to discussing the usefulness of using &lt;code&gt;dplyr&lt;/code&gt; and &lt;code&gt;data.table&lt;/code&gt; together…one day.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Importing the data
+jump.data &amp;lt;- read.csv(&amp;#39;3-Individual_Monitoring/jump-data.csv&amp;#39;)
+
+# We need to convert the dates from factor to date type
+jump.data$jumpDate &amp;lt;- as.Date(jump.data$jumpDate)
+
+# dplyr syntax
+dplyr.jump.means &amp;lt;- jump.data %&amp;gt;% group_by(jumpDate, athlete) %&amp;gt;%
+  summarise(avg_ft = mean(flightTime))
+
+# data.table syntax
+jump.data &amp;lt;- data.table(jump.data)
+
+dt.jump.means &amp;lt;- jump.data[, .(avg_ft = mean(flightTime)), by = .(jumpDate, athlete)]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In either case, we now have mean session values for each athlete:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;jumpDate&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;athlete&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;avg_ft&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Benjamin Babatunde&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.605&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Joo Garand&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.620&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Steve Galligan&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.570&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Jungsoo Moua&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.580&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Naadir el-Mahdavi&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.625&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Brandon Troxel&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.540&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Aqeel al-Hossain&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.640&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Darin Russell&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.575&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Aiden Jaeger&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.535&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Tony Cha&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.635&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We need a few more pieces of information to create control charts for our analysis–namely, each athlete’s overall mean flight time and the standard deviation of their flight times:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# dplyr syntax
+dplyr.jump.means &amp;lt;- dplyr.jump.means %&amp;gt;% group_by(athlete) %&amp;gt;% 
+  mutate(ind_mean = round(mean(avg_ft), 3),
+         ind_sd = round(sd(avg_ft), 3))
+
+# data.table syntax
+dt.jump.means[, &amp;#39;:=&amp;#39; (ind_mean = round(mean(avg_ft), 3), 
+                      ind_sd = round(sd(avg_ft), 3)), by = athlete]
+
+knitr::kable(dt.jump.means[1:10,])&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;jumpDate&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;athlete&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;avg_ft&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;ind_mean&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;ind_sd&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Benjamin Babatunde&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.605&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.613&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.014&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Joo Garand&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.620&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.618&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.013&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Steve Galligan&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.570&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.587&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.010&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Jungsoo Moua&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.580&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.575&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.010&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Naadir el-Mahdavi&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.625&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.596&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.020&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Brandon Troxel&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.540&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.540&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.019&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Aqeel al-Hossain&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.640&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.597&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.017&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Darin Russell&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.575&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.538&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.017&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Aiden Jaeger&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.535&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.549&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.025&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Tony Cha&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.635&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.616&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.020&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Once we have the athletes’ means and standard deviations, we can calculate their upper and lower control limits. In this example, I’m using limits of mean ± 1.5 SD:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# dplyr syntax
+dplyr.jump.means &amp;lt;- dplyr.jump.means %&amp;gt;% group_by(athlete) %&amp;gt;%
+  mutate(upper_limit = round(ind_mean + 1.5 * ind_sd, 3),
+         lower_limit = round(ind_mean - 1.5 * ind_sd, 3)) %&amp;gt;% ungroup()
+
+# data.table syntax
+dt.jump.means[, &amp;#39;:=&amp;#39; (upper_limit = round(ind_mean + 1.5 * ind_sd, 3),
+                      lower_limit = round(ind_mean - 1.5 * ind_sd, 3)),
+              by = athlete]
+
+knitr::kable(dt.jump.means[1:10,])&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;jumpDate&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;athlete&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;avg_ft&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;ind_mean&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;ind_sd&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;upper_limit&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;lower_limit&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Benjamin Babatunde&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.605&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.613&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.014&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.634&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.592&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Joo Garand&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.620&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.618&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.013&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.638&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.598&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Steve Galligan&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.570&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.587&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.010&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.602&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.572&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Jungsoo Moua&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.580&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.575&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.010&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.590&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.560&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Naadir el-Mahdavi&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.625&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.596&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.020&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.626&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.566&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Brandon Troxel&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.540&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.540&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.019&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.568&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.512&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Aqeel al-Hossain&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.640&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.597&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.017&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.622&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.572&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Darin Russell&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.575&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.538&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.017&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.564&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.513&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Aiden Jaeger&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.535&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.549&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.025&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.586&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.512&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2015-08-15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Tony Cha&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.635&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.616&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.020&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.646&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.586&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Now we have everything we need to plot control charts for our athletes. To start, I’m only going to plot the data from a single athlete because things can get cluttered pretty quickly.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plot a single athlete&amp;#39;s data
+ggplot(dt.jump.means[athlete == &amp;#39;Steve Galligan&amp;#39;], aes(x = jumpDate, y = avg_ft)) + 
+  geom_point() + geom_line() + 
+  geom_hline(aes(yintercept = ind_mean)) + 
+  geom_hline(aes(yintercept = upper_limit), linetype = &amp;#39;dotdash&amp;#39;) +
+  geom_hline(aes(yintercept = lower_limit), linetype = &amp;#39;dotdash&amp;#39;) + theme_bw() +
+  labs(title = &amp;#39;Jumps Over Time&amp;#39;, x = &amp;#39;Testing Date&amp;#39;, y = &amp;#39;Flight Time (s)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now we have a very basic control chart worked out. Obviously, we’re examining the data retrospectively for an athlete we managed &lt;em&gt;relatively&lt;/em&gt; well so a majority of his flight time values fall within his control limits (the drop you see at the end was after Friday-Sunday double overtime games where he played 110 minutes each game). Examining the plot brings up an important issue with SPC, though: process shifts. If you take a look at the first few testing sessions of the season, there is a noticeable increase in his performance leading into September. From knowing this athlete, I can tell you he came in unfit and having performed zero strength training that summer so his increased jump performance was to be expected. It’s safe to assume that we’ve captured his fitness changes in our monitoring data, and these fitness changes have created a process shift in his vertical jump performance. Not accounting for this shift will artificially inflate the control limits, which could cause us to miss otherwise important decreases in his monitoring data.&lt;/p&gt;
+&lt;p&gt;So how can we deal with process shifts? Your chosen solution will ultimately boil down to how much free time you have, but I’ll wager most of you reading don’t have a lot. One of the easiest solutions is to use a rolling window approach to calculate your individual means and standard deviations. Like most things in sports science, there are no rules for rolling window size, but I would say whatever your window size is for your chronic rolling window (if you’re using A:C calculations) is a good place to start. For us, that was a 28-day window. So let’s reacalculate our limits and plot the data for the final 28 days of the season:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# dplyr syntax using &amp;quot;chaining&amp;quot;
+dplyr.recent.jumps &amp;lt;- dplyr.jump.means %&amp;gt;% filter(jumpDate &amp;gt;= max(jumpDate) - 28) %&amp;gt;%
+  group_by(athlete) %&amp;gt;% mutate(ind_mean = mean(avg_ft),
+                               ind_sd = sd(avg_ft),
+                               upper_limit = ind_mean + 1.5 * ind_sd,
+                               lower_limit = ind_mean - 1.5 * ind_sd)
+
+# data.table syntax using chaining; data.table functions a little differently
+dt.recent.jumps &amp;lt;- dt.jump.means[jumpDate &amp;gt;= max(jumpDate) - 28]
+
+dt.recent.jumps[, &amp;#39;:=&amp;#39; (ind_mean = mean(avg_ft),
+                        ind_sd = sd(avg_ft)),
+                by = athlete][, &amp;#39;:=&amp;#39; (upper_limit = ind_mean + 1.5 * ind_sd,
+                                      lower_limit = ind_mean - 1.5 * ind_sd),
+                              by = athlete]
+
+ggplot(dt.recent.jumps[athlete == &amp;#39;Steve Galligan&amp;#39;], aes(x = jumpDate, y = avg_ft)) + 
+  geom_point() + geom_line() + 
+  geom_hline(aes(yintercept = ind_mean)) + 
+  geom_hline(aes(yintercept = upper_limit), linetype = &amp;#39;dotdash&amp;#39;) +
+  geom_hline(aes(yintercept = lower_limit), linetype = &amp;#39;dotdash&amp;#39;) + theme_bw() +
+  labs(title = &amp;#39;Jumps Over Time&amp;#39;, x = &amp;#39;Testing Date&amp;#39;, y = &amp;#39;Flight Time (s)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;In both cases, the final testing session of the season fell below the athlete’s control limits, so both roads would have led to Rome. While this approach worked in the current case, you may have to adjust your window based on the frequency of your testing. For the year in question, we tested every ~ 4 days, but the next season was closer to every 10 days. Implementing a 28-day rolling window for both seasons would provide drastically different numbers of sessions for our calculations. In the case of a college sport, an alternative may be removal of the pre-season from the calculations. Ultimately, though, this will be an individualized decision based on your specific testing and monitoring setup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;getting-fancy&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Getting Fancy&lt;/h3&gt;
+&lt;p&gt;There are no hard and fast rules for what threshold constitutes an out of control process. For instance, a threshold of 1 SD (.16 probability of occurring by random chance) may be too reactive to otherwise harmless fluctuations in performance while a threshold of 2 SD (.025 probability of occurring by random chance) may be too strict &lt;span class=&#34;citation&#34;&gt;[&lt;a href=&#34;#ref-Sands_2017&#34;&gt;5&lt;/a&gt;,&lt;a href=&#34;#ref-Ward_2018&#34;&gt;6&lt;/a&gt;]&lt;/span&gt;. Personally, I prefer a threshold of 1.5 SD (.065 probability of occurring by random chance), but other methods such as setting an “alert” threshold and a “warning” threshold (e.g. 1 SD = alert and 1.5 or 2 SD = warning) or implementing more sophisticated rules (see &lt;a href=&#34;https://en.wikipedia.org/wiki/Control_chart#Rules_for_detecting_signals&#34; target=&#34;_blank&#34;&gt;Wikipedia&lt;/a&gt; for a discussion on different rule sets) are also possible &lt;span class=&#34;citation&#34;&gt;[&lt;a href=&#34;#ref-Ward_2018&#34;&gt;6&lt;/a&gt;]&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;For example, let’s apply alert (1 SD) and warning (1.5 SD) thresholds to our data from the first example.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# dplyr syntax
+dplyr.jump.means &amp;lt;- dplyr.jump.means %&amp;gt;% group_by(athlete) %&amp;gt;%
+  rename(upper_limit_1.5SD = upper_limit, lower_limit_1.5SD = lower_limit) %&amp;gt;%
+  mutate(upper_limit_1SD = round(ind_mean + ind_sd, 3),
+         lower_limit_1SD = round(ind_mean - ind_sd, 3)) %&amp;gt;% ungroup()
+
+# data.table syntax
+setnames(dt.jump.means,
+         old = c(&amp;#39;upper_limit&amp;#39;, &amp;#39;lower_limit&amp;#39;),
+         new = c(&amp;#39;upper_limit_1.5SD&amp;#39;, &amp;#39;lower_limit_1.5SD&amp;#39;))
+
+dt.jump.means[, &amp;#39;:=&amp;#39; (upper_limit_1SD = round(ind_mean + ind_sd, 3),
+                      lower_limit_1SD = round(ind_mean - ind_sd, 3)
+                      ), by = athlete]
+
+ggplot(dt.jump.means[athlete == &amp;#39;Steve Galligan&amp;#39;], aes(x = jumpDate, y = avg_ft)) +
+  geom_point() +
+  geom_line() +
+  geom_hline(aes(yintercept = ind_mean)) +
+  geom_hline(aes(yintercept = lower_limit_1.5SD)) +
+  geom_hline(aes(yintercept = upper_limit_1.5SD)) +
+  geom_hline(aes(yintercept = lower_limit_1SD), linetype = &amp;#39;dashed&amp;#39;) +
+  geom_hline(aes(yintercept = upper_limit_1SD), linetype = &amp;#39;dashed&amp;#39;) +
+  theme_bw() +
+  labs(title = &amp;#39;Jumps Over Time&amp;#39;, x = &amp;#39;Testing Date&amp;#39;, y = &amp;#39;Flight Time (s)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;It’s also possible to color code the plots based on whether they violate your chosen thresholds or more advanced rule sets. The code gets very messy (I originally included example code but removed it because it was difficult to follow), so if you want to use color coding or more advanced rule sets, I would seriously recommend exploring one of the specially-built SPC packages available on CRAN. &lt;code&gt;qcc&lt;/code&gt;, for instance, can create both individual control charts (“I” charts) and EWMA-based charts. Selection on chart type will depend on the amount of data you have and the window size you’ve chosen.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;wrapping-up&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Wrapping Up&lt;/h2&gt;
+&lt;p&gt;If you really want to go down the SPC rabbit hole, there are R packages dedicated to SPC analysis (&lt;code&gt;spc&lt;/code&gt;, &lt;code&gt;qicharts&lt;/code&gt;, &lt;code&gt;qcc&lt;/code&gt;). I’ve played around with &lt;code&gt;qcc&lt;/code&gt; a bit to create both “I” and EWMA control charts, but I don’t have enough experience with the package to provide any sort of guidance.&lt;/p&gt;
+&lt;p&gt;I had originally planned on covering anomaly detection in this post as well, but I’m pretty sure all our brains would be mush by the end. Look for Part 2 to drop in the next few days! In the meantime, feel free to drop me a line on &lt;a href=&#34;https://twitter.com/DrMattSams&#34; target=&#34;_blank&#34;&gt;twitter&lt;/a&gt; or email me at &lt;a href=&#34;mailto:samsperformancetraining@gmail.com&#34;&gt;samsperformancetraining@gmail.com&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;code-recap&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Code Recap&lt;/h2&gt;
+&lt;p&gt;To recap the code used in Part 1:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Required packages
+library(data.table)
+library(ggplot2)
+library(knitr)
+library(dplyr)
+
+# Importing the data
+jump.data &amp;lt;- read.csv(&amp;#39;3-Individual_Monitoring/jump-data.csv&amp;#39;)
+
+# We need to convert the dates from factor to date type
+jump.data$jumpDate &amp;lt;- as.Date(jump.data$jumpDate)
+
+# --- Session Averages --- #
+
+# dplyr syntax
+dplyr.jump.means &amp;lt;- jump.data %&amp;gt;% group_by(jumpDate, athlete) %&amp;gt;%
+  summarise(avg_ft = mean(flightTime))
+
+# data.table syntax
+jump.data &amp;lt;- data.table(jump.data)
+
+dt.jump.means &amp;lt;- jump.data[, .(avg_ft = mean(flightTime)), by = .(jumpDate, athlete)]
+
+# --- Individual Averages and SD --- #
+# dplyr syntax
+dplyr.jump.means &amp;lt;- dplyr.jump.means %&amp;gt;% group_by(athlete) %&amp;gt;% 
+  mutate(ind_mean = round(mean(avg_ft), 3),
+         ind_sd = round(sd(avg_ft), 3))
+
+# data.table syntax
+dt.jump.means[, &amp;#39;:=&amp;#39; (ind_mean = round(mean(avg_ft), 3), 
+                      ind_sd = round(sd(avg_ft), 3)), by = athlete]
+
+# --- Plot 1 --- #
+# Plot a single athlete&amp;#39;s data
+ggplot(dt.jump.means[athlete == &amp;#39;Steve Galligan&amp;#39;], aes(x = jumpDate, y = avg_ft)) + 
+  geom_point() + geom_line() + 
+  geom_hline(aes(yintercept = ind_mean)) + 
+  geom_hline(aes(yintercept = upper_limit), linetype = &amp;#39;dotdash&amp;#39;) +
+  geom_hline(aes(yintercept = lower_limit), linetype = &amp;#39;dotdash&amp;#39;) + theme_bw() +
+  labs(title = &amp;#39;Jumps Over Time&amp;#39;, x = &amp;#39;Testing Date&amp;#39;, y = &amp;#39;Flight Time (s)&amp;#39;)
+
+# --- Rolling Window and Plot --- #
+# dplyr syntax using &amp;quot;chaining&amp;quot;
+dplyr.recent.jumps &amp;lt;- dplyr.jump.means %&amp;gt;% filter(jumpDate &amp;gt;= max(jumpDate) - 28) %&amp;gt;%
+  group_by(athlete) %&amp;gt;% mutate(ind_mean = mean(avg_ft),
+                               ind_sd = sd(avg_ft),
+                               upper_limit = ind_mean + 1.5 * ind_sd,
+                               lower_limit = ind_mean - 1.5 * ind_sd)
+
+# data.table syntax using chaining; data.table functions a little differently
+dt.recent.jumps &amp;lt;- dt.jump.means[jumpDate &amp;gt;= max(jumpDate) - 28]
+
+dt.recent.jumps[, &amp;#39;:=&amp;#39; (ind_mean = mean(avg_ft),
+                        ind_sd = sd(avg_ft)),
+                by = athlete][, &amp;#39;:=&amp;#39; (upper_limit = ind_mean + 1.5 * ind_sd,
+                                      lower_limit = ind_mean - 1.5 * ind_sd),
+                              by = athlete]
+
+ggplot(dt.recent.jumps[athlete == &amp;#39;Steve Galligan&amp;#39;], aes(x = jumpDate, y = avg_ft)) + 
+  geom_point() + geom_line() + 
+  geom_hline(aes(yintercept = ind_mean)) + 
+  geom_hline(aes(yintercept = upper_limit), linetype = &amp;#39;dotdash&amp;#39;) +
+  geom_hline(aes(yintercept = lower_limit), linetype = &amp;#39;dotdash&amp;#39;) + theme_bw() +
+  labs(title = &amp;#39;Jumps Over Time&amp;#39;, x = &amp;#39;Testing Date&amp;#39;, y = &amp;#39;Flight Time (s)&amp;#39;)
+
+# --- Having both alert and warning thresholds --- #
+# dplyr syntax
+dplyr.jump.means &amp;lt;- dplyr.jump.means %&amp;gt;% group_by(athlete) %&amp;gt;%
+  rename(upper_limit_1.5SD = upper_limit, lower_limit_1.5SD = lower_limit) %&amp;gt;%
+  mutate(upper_limit_1SD = round(ind_mean + ind_sd, 3),
+         lower_limit_1SD = round(ind_mean - ind_sd, 3)) %&amp;gt;% ungroup()
+
+# data.table syntax
+setnames(dt.jump.means,
+         old = c(&amp;#39;upper_limit&amp;#39;, &amp;#39;lower_limit&amp;#39;),
+         new = c(&amp;#39;upper_limit_1.5SD&amp;#39;, &amp;#39;lower_limit_1.5SD&amp;#39;))
+
+dt.jump.means[, &amp;#39;:=&amp;#39; (upper_limit_1SD = round(ind_mean + ind_sd, 3),
+                      lower_limit_1SD = round(ind_mean - ind_sd, 3)
+                      ), by = athlete]
+
+ggplot(dt.jump.means[athlete == &amp;#39;Steve Galligan&amp;#39;], aes(x = jumpDate, y = avg_ft)) +
+  geom_point() +
+  geom_line() +
+  geom_hline(aes(yintercept = ind_mean)) +
+  geom_hline(aes(yintercept = lower_limit_1.5SD)) +
+  geom_hline(aes(yintercept = upper_limit_1.5SD)) +
+  geom_hline(aes(yintercept = lower_limit_1SD), linetype = &amp;#39;dashed&amp;#39;) +
+  geom_hline(aes(yintercept = upper_limit_1SD), linetype = &amp;#39;dashed&amp;#39;) +
+  theme_bw() +
+  labs(title = &amp;#39;Jumps Over Time&amp;#39;, x = &amp;#39;Testing Date&amp;#39;, y = &amp;#39;Flight Time (s)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level2 unnumbered&#34;&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;div id=&#34;refs&#34; class=&#34;references&#34;&gt;
+&lt;div id=&#34;ref-Gathercole_2015&#34;&gt;
+&lt;p&gt;&lt;sup&gt;1&lt;/sup&gt; &lt;em&gt;Gathercole RJ, Sporer BC, Stellingwerff T, Sleivert GG. &lt;/em&gt;Comparison of the capacity of different jump and sprint field tests to detect neuromuscular fatigue. Journal of Strength and Conditioning Research 2015; 29: 2522–2531 Available from: &lt;a href=&#34;https://doi.org/10.1519/jsc.0000000000000912&#34; class=&#34;uri&#34;&gt;https://doi.org/10.1519/jsc.0000000000000912&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-Hoffman_2002&#34;&gt;
+&lt;p&gt;&lt;sup&gt;2&lt;/sup&gt; &lt;em&gt;Hoffman JR, Haresh CM, Newton RU, Rubin MR, French DN, Volek JS, Sutherland J, Robertson M, Gomez AL, Ratamess NA, Kang J, Kraemer WJ. &lt;/em&gt;Performance, biochemical, and endocrine changes during a competitive football game. Medicine and Science in Sports and Exercise 2002; 34: 1845–1853 Available from: &lt;a href=&#34;https://doi.org/10.1249/01.MSS.0000035373.26840.F8&#34; class=&#34;uri&#34;&gt;https://doi.org/10.1249/01.MSS.0000035373.26840.F8&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-hortobgyi1991voluntary&#34;&gt;
+&lt;p&gt;&lt;sup&gt;3&lt;/sup&gt; &lt;em&gt;Hortob’agyi T, Lambert NJ, Kroll WP. &lt;/em&gt;Voluntary and reflex responses to fatigue with stretch-shortening exercise. Canadian journal of sport sciences = Journal canadien des sciences du sport 1991; 16: 142–150&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-Sams_2014&#34;&gt;
+&lt;p&gt;&lt;sup&gt;4&lt;/sup&gt; &lt;em&gt;Sams ML. &lt;/em&gt;Comparison of static and countermovement jump variables in relation to estimated training load and subjective measures of fatigue. 2014;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-Sands_2017&#34;&gt;
+&lt;p&gt;&lt;sup&gt;5&lt;/sup&gt; &lt;em&gt;Sands WA, Kavanaugh AA, Murray SR, McNeal JR, Jemni M. &lt;/em&gt;Modern techniques and technologies applied to training and performance monitoring. International Journal of Sports Physiology and Performance 2017; 12: S2–63–S2–72 Available from: &lt;a href=&#34;https://doi.org/10.1123/ijspp.2016-0405&#34; class=&#34;uri&#34;&gt;https://doi.org/10.1123/ijspp.2016-0405&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-Ward_2018&#34;&gt;
+&lt;p&gt;&lt;sup&gt;6&lt;/sup&gt; &lt;em&gt;Ward P, Coutts AJ, Pruna R, McCall A. &lt;/em&gt;Putting the “i” back in team. International Journal of Sports Physiology and Performance 2018; 1–14 Available from: &lt;a href=&#34;https://doi.org/10.1123/ijspp.2018-0154&#34; class=&#34;uri&#34;&gt;https://doi.org/10.1123/ijspp.2018-0154&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>S3 2018 Recap</title>
       <link>/post/s3-2018-recap/</link>
       <pubDate>Sun, 24 Jun 2018 00:00:00 +0000</pubDate>

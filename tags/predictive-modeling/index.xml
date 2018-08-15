@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Predictive modeling on Sams Performance Training</title>
+    <link>/tags/predictive-modeling/</link>
+    <description>Recent content in Predictive modeling on Sams Performance Training</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Sams Performance Training</copyright>
+    <lastBuildDate>Fri, 17 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/predictive-modeling/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Individualized Athlete Monitoring in R, Part 2</title>
+      <link>/post/r-individual-monitoring-part-2/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-individual-monitoring-part-2/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
