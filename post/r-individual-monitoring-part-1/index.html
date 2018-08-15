@@ -96,9 +96,9 @@
   <meta property="og:description" content="Getting Back into the Swing of ThingsStatistical Process Control (SPC)Performing SPC in RGetting FancyWrapping UpCode RecapReferencesGetting Back into the Swing of ThingsWell, it’s been a hot minute since my last post (whoops!). I’ve been busy with bobsledders and job hunting this summer, but I’ve finally found a bit of time to get back to the ole blog now that bobsled’s summer training is winding down and I’m preparing for an intercontinental move (keep an eye on Twitter for related news)."><meta property="og:image" content="/img/headers/dashboard-snip.png">
   <meta property="og:locale" content="en-us">
   
-  <meta property="article:published_time" content="2018-08-16T00:00:00&#43;00:00">
+  <meta property="article:published_time" content="2018-08-15T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2018-08-16T00:00:00&#43;00:00">
+  <meta property="article:modified_time" content="2018-08-15T00:00:00&#43;00:00">
   
 
   
@@ -158,8 +158,8 @@
 
   <span class="article-date">
     
-    <time datetime="2018-08-16 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      Aug 16, 2018
+    <time datetime="2018-08-15 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Aug 15, 2018
     </time>
   </span>
   <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
@@ -354,7 +354,7 @@
 </tr>
 </tbody>
 </table>
-<p><img src="/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>These are real flight time values measured on switch mats, although the athletes’ names have been randomized. The data come from 21 vertical jump testing sessions across a fall season and include 1 “baseline” testing session and 20 in-season testing sessions that were carried out ~ 4 hours before most of the season’s matches. Each athlete completed 2 - 3 trials at each testing session, and the two closest trials were stored in the monitoring database.</p>
 <p>First things first, we need to obtain session averages for each athlete. I know <code>dplyr</code> tends to be the go-to for data manipulation, so I’ve included both <code>dplyr</code> and <code>data.table</code> (my personal favorite) versions of the code throughout the remainder of the post. One of these days, I’ll get around to discussing the usefulness of using <code>dplyr</code> and <code>data.table</code> together…one day.</p>
 <pre class="r"><code># Importing the data
@@ -433,7 +433,7 @@ dt.jump.means &lt;- jump.data[, .(avg_ft = mean(flightTime)), by = .(jumpDate, a
 </tr>
 </tbody>
 </table>
-<p><img src="/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>We need a few more pieces of information to create control charts for our analysis–namely, each athlete’s overall mean flight time and the standard deviation of their flight times:</p>
 <pre class="r"><code># dplyr syntax
 dplyr.jump.means &lt;- dplyr.jump.means %&gt;% group_by(athlete) %&gt;% 
@@ -653,7 +653,7 @@ ggplot(dt.jump.means[athlete == &#39;Steve Galligan&#39;], aes(x = jumpDate, y =
   geom_hline(aes(yintercept = upper_limit), linetype = &#39;dotdash&#39;) +
   geom_hline(aes(yintercept = lower_limit), linetype = &#39;dotdash&#39;) + theme_bw() +
   labs(title = &#39;Jumps Over Time&#39;, x = &#39;Testing Date&#39;, y = &#39;Flight Time (s)&#39;)</code></pre>
-<p><img src="/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Now we have a very basic control chart worked out. Obviously, we’re examining the data retrospectively for an athlete we managed <em>relatively</em> well so a majority of his flight time values fall within his control limits (the drop you see at the end was after Friday-Sunday double overtime games where he played 110 minutes each game). Examining the plot brings up an important issue with SPC, though: process shifts. If you take a look at the first few testing sessions of the season, there is a noticeable increase in his performance leading into September. From knowing this athlete, I can tell you he came in unfit and having performed zero strength training that summer so his increased jump performance was to be expected. It’s safe to assume that we’ve captured his fitness changes in our monitoring data, and these fitness changes have created a process shift in his vertical jump performance. Not accounting for this shift will artificially inflate the control limits, which could cause us to miss otherwise important decreases in his monitoring data.</p>
 <p>So how can we deal with process shifts? Your chosen solution will ultimately boil down to how much free time you have, but I’ll wager most of you reading don’t have a lot. One of the easiest solutions is to use a rolling window approach to calculate your individual means and standard deviations. Like most things in sports science, there are no rules for rolling window size, but I would say whatever your window size is for your chronic rolling window (if you’re using A:C calculations) is a good place to start. For us, that was a 28-day window. So let’s reacalculate our limits and plot the data for the final 28 days of the season:</p>
 <pre class="r"><code># dplyr syntax using &quot;chaining&quot;
@@ -678,7 +678,7 @@ ggplot(dt.recent.jumps[athlete == &#39;Steve Galligan&#39;], aes(x = jumpDate, y
   geom_hline(aes(yintercept = upper_limit), linetype = &#39;dotdash&#39;) +
   geom_hline(aes(yintercept = lower_limit), linetype = &#39;dotdash&#39;) + theme_bw() +
   labs(title = &#39;Jumps Over Time&#39;, x = &#39;Testing Date&#39;, y = &#39;Flight Time (s)&#39;)</code></pre>
-<p><img src="/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>In both cases, the final testing session of the season fell below the athlete’s control limits, so both roads would have led to Rome. While this approach worked in the current case, you may have to adjust your window based on the frequency of your testing. For the year in question, we tested every ~ 4 days, but the next season was closer to every 10 days. Implementing a 28-day rolling window for both seasons would provide drastically different numbers of sessions for our calculations. In the case of a college sport, an alternative may be removal of the pre-season from the calculations. Ultimately, though, this will be an individualized decision based on your specific testing and monitoring setup.</p>
 </div>
 <div id="getting-fancy" class="section level3">
@@ -710,7 +710,7 @@ ggplot(dt.jump.means[athlete == &#39;Steve Galligan&#39;], aes(x = jumpDate, y =
   geom_hline(aes(yintercept = upper_limit_1SD), linetype = &#39;dashed&#39;) +
   theme_bw() +
   labs(title = &#39;Jumps Over Time&#39;, x = &#39;Testing Date&#39;, y = &#39;Flight Time (s)&#39;)</code></pre>
-<p><img src="/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>It’s also possible to color code the plots based on whether they violate your chosen thresholds or more advanced rule sets. The code gets very messy (I originally included example code but removed it because it was difficult to follow), so if you want to use color coding or more advanced rule sets, I would seriously recommend exploring one of the specially-built SPC packages available on CRAN. <code>qcc</code>, for instance, can create both individual control charts (“I” charts) and EWMA-based charts. Selection on chart type will depend on the amount of data you have and the window size you’ve chosen.</p>
 </div>
 </div>

@@ -13,7 +13,7 @@
     <item>
       <title>Individualized Athlete Monitoring in R, Part 1</title>
       <link>/post/r-individual-monitoring-part-1/</link>
-      <pubDate>Thu, 16 Aug 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 15 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/r-individual-monitoring-part-1/</guid>
       <description>&lt;div id=&#34;TOC&#34;&gt;
@@ -132,7 +132,7 @@
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;These are real flight time values measured on switch mats, although the athletes’ names have been randomized. The data come from 21 vertical jump testing sessions across a fall season and include 1 “baseline” testing session and 20 in-season testing sessions that were carried out ~ 4 hours before most of the season’s matches. Each athlete completed 2 - 3 trials at each testing session, and the two closest trials were stored in the monitoring database.&lt;/p&gt;
 &lt;p&gt;First things first, we need to obtain session averages for each athlete. I know &lt;code&gt;dplyr&lt;/code&gt; tends to be the go-to for data manipulation, so I’ve included both &lt;code&gt;dplyr&lt;/code&gt; and &lt;code&gt;data.table&lt;/code&gt; (my personal favorite) versions of the code throughout the remainder of the post. One of these days, I’ll get around to discussing the usefulness of using &lt;code&gt;dplyr&lt;/code&gt; and &lt;code&gt;data.table&lt;/code&gt; together…one day.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Importing the data
@@ -211,7 +211,7 @@ dt.jump.means &amp;lt;- jump.data[, .(avg_ft = mean(flightTime)), by = .(jumpDat
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We need a few more pieces of information to create control charts for our analysis–namely, each athlete’s overall mean flight time and the standard deviation of their flight times:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# dplyr syntax
 dplyr.jump.means &amp;lt;- dplyr.jump.means %&amp;gt;% group_by(athlete) %&amp;gt;% 
@@ -431,7 +431,7 @@ ggplot(dt.jump.means[athlete == &amp;#39;Steve Galligan&amp;#39;], aes(x = jumpD
   geom_hline(aes(yintercept = upper_limit), linetype = &amp;#39;dotdash&amp;#39;) +
   geom_hline(aes(yintercept = lower_limit), linetype = &amp;#39;dotdash&amp;#39;) + theme_bw() +
   labs(title = &amp;#39;Jumps Over Time&amp;#39;, x = &amp;#39;Testing Date&amp;#39;, y = &amp;#39;Flight Time (s)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Now we have a very basic control chart worked out. Obviously, we’re examining the data retrospectively for an athlete we managed &lt;em&gt;relatively&lt;/em&gt; well so a majority of his flight time values fall within his control limits (the drop you see at the end was after Friday-Sunday double overtime games where he played 110 minutes each game). Examining the plot brings up an important issue with SPC, though: process shifts. If you take a look at the first few testing sessions of the season, there is a noticeable increase in his performance leading into September. From knowing this athlete, I can tell you he came in unfit and having performed zero strength training that summer so his increased jump performance was to be expected. It’s safe to assume that we’ve captured his fitness changes in our monitoring data, and these fitness changes have created a process shift in his vertical jump performance. Not accounting for this shift will artificially inflate the control limits, which could cause us to miss otherwise important decreases in his monitoring data.&lt;/p&gt;
 &lt;p&gt;So how can we deal with process shifts? Your chosen solution will ultimately boil down to how much free time you have, but I’ll wager most of you reading don’t have a lot. One of the easiest solutions is to use a rolling window approach to calculate your individual means and standard deviations. Like most things in sports science, there are no rules for rolling window size, but I would say whatever your window size is for your chronic rolling window (if you’re using A:C calculations) is a good place to start. For us, that was a 28-day window. So let’s reacalculate our limits and plot the data for the final 28 days of the season:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# dplyr syntax using &amp;quot;chaining&amp;quot;
@@ -456,7 +456,7 @@ ggplot(dt.recent.jumps[athlete == &amp;#39;Steve Galligan&amp;#39;], aes(x = jum
   geom_hline(aes(yintercept = upper_limit), linetype = &amp;#39;dotdash&amp;#39;) +
   geom_hline(aes(yintercept = lower_limit), linetype = &amp;#39;dotdash&amp;#39;) + theme_bw() +
   labs(title = &amp;#39;Jumps Over Time&amp;#39;, x = &amp;#39;Testing Date&amp;#39;, y = &amp;#39;Flight Time (s)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;In both cases, the final testing session of the season fell below the athlete’s control limits, so both roads would have led to Rome. While this approach worked in the current case, you may have to adjust your window based on the frequency of your testing. For the year in question, we tested every ~ 4 days, but the next season was closer to every 10 days. Implementing a 28-day rolling window for both seasons would provide drastically different numbers of sessions for our calculations. In the case of a college sport, an alternative may be removal of the pre-season from the calculations. Ultimately, though, this will be an individualized decision based on your specific testing and monitoring setup.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;getting-fancy&#34; class=&#34;section level3&#34;&gt;
@@ -488,7 +488,7 @@ ggplot(dt.jump.means[athlete == &amp;#39;Steve Galligan&amp;#39;], aes(x = jumpD
   geom_hline(aes(yintercept = upper_limit_1SD), linetype = &amp;#39;dashed&amp;#39;) +
   theme_bw() +
   labs(title = &amp;#39;Jumps Over Time&amp;#39;, x = &amp;#39;Testing Date&amp;#39;, y = &amp;#39;Flight Time (s)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-08-16-r-individual-monitoring_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-15-r-individual-monitoring_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;It’s also possible to color code the plots based on whether they violate your chosen thresholds or more advanced rule sets. The code gets very messy (I originally included example code but removed it because it was difficult to follow), so if you want to use color coding or more advanced rule sets, I would seriously recommend exploring one of the specially-built SPC packages available on CRAN. &lt;code&gt;qcc&lt;/code&gt;, for instance, can create both individual control charts (“I” charts) and EWMA-based charts. Selection on chart type will depend on the amount of data you have and the window size you’ve chosen.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
