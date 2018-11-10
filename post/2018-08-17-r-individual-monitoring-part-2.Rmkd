@@ -1,0 +1,30 @@
+---
+title: Individualized Athlete Monitoring in R, Part 2
+author: Matt Sams
+date: '2018-08-17'
+categories:
+  - R
+tags:
+  - athlete monitoring
+  - workload management
+  - predictive modeling
+slug: r-individual-monitoring-part-2
+header:
+  caption: ''
+  image: headers/dashboard-snip.png
+summary: Modeling and anomaly detection in R
+bibliography: 3-Individual_Monitoring/3-refs.bib
+csl: ijsm.csl
+link-citations: yes
+output:
+  blogdown::html_page:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+library(data.table)
+library(ggplot2)
+library(knitr)
+library(TTR)
+library(dplyr)
+```

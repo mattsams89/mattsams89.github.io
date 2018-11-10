@@ -2,6 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     
+    <url>
+    
+      <loc>/post/r-individual-monitoring-part-3/</loc>
+      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/post/r-individual-monitoring-part-2/</loc>
+      <lastmod>2018-11-10T00:00:00+00:00</lastmod>
+    </url>
+    
+  
     
     <url>
     
@@ -11,7 +26,6 @@
     
   
     
-    
     <url>
     
       <loc>/post/s3-2018-recap/</loc>
@@ -19,7 +33,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -29,24 +42,21 @@
     
   
     
-    
     <url>
     
       <loc>/tags/academic/</loc>
-      <lastmod>2017-01-01T00:00:00-05:00</lastmod>
+      <lastmod>2017-01-01T00:00:00+01:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
       <loc>/post/</loc>
-      <lastmod>2017-01-01T00:00:00-05:00</lastmod>
+      <lastmod>2017-01-01T00:00:00+01:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
@@ -57,16 +67,14 @@
     
   
     
-    
     <url>
     
       <loc>/tags/athlete-monitoring/</loc>
-      <lastmod>2018-08-15T00:00:00+00:00</lastmod>
+      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
   
-    
     
     <url>
     
@@ -75,7 +83,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -86,6 +93,14 @@
     
   
     
+    <url>
+    
+      <loc>/tags/predictive-modeling/</loc>
+      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
     
     <url>
     
@@ -95,26 +110,23 @@
     
   
     
-    
     <url>
     
       <loc>/categories/r/</loc>
-      <lastmod>2018-08-15T00:00:00+00:00</lastmod>
+      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
   
-    
     
     <url>
     
       <loc>/</loc>
-      <lastmod>2016-04-20T00:00:00-04:00</lastmod>
+      <lastmod>2016-04-20T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     
   
-    
     
     <url>
     
@@ -125,21 +137,19 @@
     
   
     
-    
     <url>
     
       <loc>/tags/</loc>
-      <lastmod>2017-01-01T00:00:00-05:00</lastmod>
+      <lastmod>2017-01-01T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
   
     
-    
     <url>
     
       <loc>/tags/workload-management/</loc>
-      <lastmod>2018-08-15T00:00:00+00:00</lastmod>
+      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

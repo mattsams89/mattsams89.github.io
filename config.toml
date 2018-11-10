@@ -231,8 +231,8 @@ enableGitInfo = false
     link = "mailto:samsperformancetraining@gmail.com"
 
   [[params.social]]
-    icon = "twitter"
-    icon_pack = "fa"
+    icon = "fab fa-twitter"
+    icon_pack = "fab"
     link = "//twitter.com/DrMattSams"
 
   [[params.social]]
@@ -241,8 +241,8 @@ enableGitInfo = false
     link = "//researchgate.net/profile/Matt_Sams"
 
   [[params.social]]
-    icon = "github"
-    icon_pack = "fa"
+    icon = "fab fa-github"
+    icon_pack = "fab"
     link = "//github.com/mattsams89"
 
 

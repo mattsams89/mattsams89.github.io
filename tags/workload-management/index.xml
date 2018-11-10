@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Sams Performance Training</copyright>
-    <lastBuildDate>Wed, 15 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 11 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/workload-management/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Individualized Athlete Monitoring in R, Part 3 (Interpreting the Predictive Model)</title>
+      <link>/post/r-individual-monitoring-part-3/</link>
+      <pubDate>Sun, 11 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-individual-monitoring-part-3/</guid>
+      <description>Hitting the Ground RunningIt’s Predicting TimeIdentifying AnomaliesWrapping UpHitting the Ground RunningThis post assumes you’ve already read part 1 and part 2 for “Individual Athlete Monitoring in R.” If you haven’t I’d suggest you go back to part 2 for some context for this post. Otherwise, you’re going to be pretty lost. Let’s go.
+It’s Predicting TimeLast time, we built a linear mixed model with the lme4 package called final model.</description>
+    </item>
+    
+    <item>
+      <title>Individualized Athlete Monitoring in R, Part 2 (Building a Predictive Model)</title>
+      <link>/post/r-individual-monitoring-part-2/</link>
+      <pubDate>Sat, 10 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-individual-monitoring-part-2/</guid>
+      <description>WhoopsA RefresherAnomaly DetectionRM ANOVA vs. Mixed ModelingBuilding a ModelVisualizing the DataBuilding the ModelWrapping UpWhoopsAlright, so maybe I’m a liar and part 2 took…a while…to come to fruition. Sorry about that. In my defense, I’ve traveled to four different countries for work, worked on sprint step analysis for @DrBradDeWeese (hopefully we can share some of that soon), and bought a new laptop without any of my blogging packages installed so at least cut me a little slack.</description>
+    </item>
     
     <item>
       <title>Individualized Athlete Monitoring in R, Part 1</title>

@@ -35,6 +35,6 @@ weight = 15
 
 # Biography
 
-I'm Matt Sams, a sport scientist and strength and conditioning coach based in Johnson City, TN. I've had the chance to work with athletes in a range of sports, including soccer, basketball, volleyball, canoe/kayak, bobsled, skeleton, and luge.
+I'm Matt Sams, a sport scientist and strength and conditioning coach working with Team China in Beijing. I've had the chance to work with athletes in a range of sports, including soccer, basketball, volleyball, canoe/kayak, bobsled, skeleton, luge, and XC skiing.
 
 My main interests are focused on maximizing athletes' performance while minimizing their fatigue and injury risk. To that end, most of my work has been focused on developing and implementing athlete monitoring that provides immediate, actionable data. Don't let all that sport science jargon fool you because I'm more than a spreadsheet junkie. I have 8 years of hands-on coaching experience with Olympic-caliber, Division 1, and Division 3 athletes and 10 years of personal training experience. I hold a CSCS through the NSCA and a CPT through the ACSM.
