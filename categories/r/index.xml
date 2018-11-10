@@ -2,50 +2,50 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on Sams Performance Training</title>
-    <link>https://mattsams89.github.io/categories/r/</link>
+    <link>/categories/r/</link>
     <description>Recent content in R on Sams Performance Training</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Sams Performance Training</copyright>
     <lastBuildDate>Sat, 10 Nov 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://mattsams89.github.io/categories/r/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Individualized Athlete Monitoring in R, Part 3 (Interpreting the Predictive Model)</title>
-      <link>https://mattsams89.github.io/post/r-individual-monitoring-part-3/</link>
+      <link>/post/r-individual-monitoring-part-3/</link>
       <pubDate>Sat, 10 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mattsams89.github.io/post/r-individual-monitoring-part-3/</guid>
+      <guid>/post/r-individual-monitoring-part-3/</guid>
       <description>Hitting the Ground RunningIt’s Predicting TimeIdentifying AnomaliesWrapping UpHitting the Ground RunningThis post assumes you’ve already read part 1 and part 2 for “Individual Athlete Monitoring in R.” If you haven’t I’d suggest you go back to part 2 for some context for this post. Otherwise, you’re going to be pretty lost. Let’s go.
 It’s Predicting TimeLast time, we built a linear mixed model with the lme4 package called final model.</description>
     </item>
     
     <item>
       <title>Individualized Athlete Monitoring in R, Part 2 (Building a Predictive Model)</title>
-      <link>https://mattsams89.github.io/post/r-individual-monitoring-part-2/</link>
+      <link>/post/r-individual-monitoring-part-2/</link>
       <pubDate>Fri, 09 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mattsams89.github.io/post/r-individual-monitoring-part-2/</guid>
+      <guid>/post/r-individual-monitoring-part-2/</guid>
       <description>WhoopsA RefresherAnomaly DetectionRM ANOVA vs. Mixed ModelingBuilding a ModelVisualizing the DataBuilding the ModelWrapping UpWhoopsAlright, so maybe I’m a liar and part 2 took…a while…to come to fruition. Sorry about that. In my defense, I’ve traveled to four different countries for work, worked on sprint step analysis for @DrBradDeWeese (hopefully we can share some of that soon), and bought a new laptop without any of my blogging packages installed so at least cut me a little slack.</description>
     </item>
     
     <item>
       <title>Individualized Athlete Monitoring in R, Part 1</title>
-      <link>https://mattsams89.github.io/post/r-individual-monitoring-part-1/</link>
+      <link>/post/r-individual-monitoring-part-1/</link>
       <pubDate>Wed, 15 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mattsams89.github.io/post/r-individual-monitoring-part-1/</guid>
+      <guid>/post/r-individual-monitoring-part-1/</guid>
       <description>Getting Back into the Swing of ThingsStatistical Process Control (SPC)Performing SPC in RGetting FancyWrapping UpCode RecapReferencesGetting Back into the Swing of ThingsWell, it’s been a hot minute since my last post (whoops!). I’ve been busy with bobsledders and job hunting this summer, but I’ve finally found a bit of time to get back to the ole blog now that bobsled’s summer training is winding down and I’m preparing for an intercontinental move (keep an eye on Twitter for related news).</description>
     </item>
     
     <item>
       <title>Leveraging R to Calculate Acute:Chronic Workload Ratios</title>
-      <link>https://mattsams89.github.io/post/r-acwr-intro/</link>
+      <link>/post/r-acwr-intro/</link>
       <pubDate>Sat, 09 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mattsams89.github.io/post/r-acwr-intro/</guid>
+      <guid>/post/r-acwr-intro/</guid>
       <description>Acute:Chronic Workload Ratios?An Extremely Hot TopicCalculating ACWR in RThe DataMore Than One Way to Skin a CatCoupled vs. UncoupledWrapping UpCode RecapReferencesAcute:Chronic Workload Ratios?If you’ve been keeping up with the athlete workload monitoring world, you’ve probably heard of the concept of acute:chronic workload ratios (ACWR). In case you haven’t, the concept is relatively simple: how does the recently accumulated training load for an athlete (typically the last 3 - 7 days) compare to their chronic accumulation of training load (previous 3 - 6 weeks of training)?</description>
     </item>
     
