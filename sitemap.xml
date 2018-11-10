@@ -4,15 +4,7 @@
     
     <url>
     
-      <loc>/post/r-individual-monitoring-part-3/</loc>
-      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    <url>
-    
-      <loc>/post/r-individual-monitoring-part-2/</loc>
+      <loc>https://mattsams89.github.io/post/r-individual-monitoring-part-2/</loc>
       <lastmod>2018-11-10T00:00:00+00:00</lastmod>
     </url>
     
@@ -20,7 +12,7 @@
     
     <url>
     
-      <loc>/post/r-individual-monitoring-part-1/</loc>
+      <loc>https://mattsams89.github.io/post/r-individual-monitoring-part-1/</loc>
       <lastmod>2018-08-15T00:00:00+00:00</lastmod>
     </url>
     
@@ -28,7 +20,7 @@
     
     <url>
     
-      <loc>/post/s3-2018-recap/</loc>
+      <loc>https://mattsams89.github.io/post/s3-2018-recap/</loc>
       <lastmod>2018-06-24T00:00:00+00:00</lastmod>
     </url>
     
@@ -36,7 +28,7 @@
     
     <url>
     
-      <loc>/post/r-acwr-intro/</loc>
+      <loc>https://mattsams89.github.io/post/r-acwr-intro/</loc>
       <lastmod>2018-06-09T00:00:00+00:00</lastmod>
     </url>
     
@@ -44,7 +36,7 @@
     
     <url>
     
-      <loc>/tags/academic/</loc>
+      <loc>https://mattsams89.github.io/tags/academic/</loc>
       <lastmod>2017-01-01T00:00:00+01:00</lastmod>
     </url>
     
@@ -52,7 +44,7 @@
     
     <url>
     
-      <loc>/post/</loc>
+      <loc>https://mattsams89.github.io/post/</loc>
       <lastmod>2017-01-01T00:00:00+01:00</lastmod>
     </url>
     
@@ -60,7 +52,7 @@
     
     <url>
     
-      <loc>/tags/acwr/</loc>
+      <loc>https://mattsams89.github.io/tags/acwr/</loc>
       <lastmod>2018-06-09T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -69,8 +61,8 @@
     
     <url>
     
-      <loc>/tags/athlete-monitoring/</loc>
-      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
+      <loc>https://mattsams89.github.io/tags/athlete-monitoring/</loc>
+      <lastmod>2018-11-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -78,7 +70,7 @@
     
     <url>
     
-      <loc>/categories/</loc>
+      <loc>https://mattsams89.github.io/categories/</loc>
       <priority>0</priority>
     </url>
     
@@ -86,7 +78,7 @@
     
     <url>
     
-      <loc>/categories/conferences/</loc>
+      <loc>https://mattsams89.github.io/categories/conferences/</loc>
       <lastmod>2018-06-24T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -95,8 +87,8 @@
     
     <url>
     
-      <loc>/tags/predictive-modeling/</loc>
-      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
+      <loc>https://mattsams89.github.io/tags/predictive-modeling/</loc>
+      <lastmod>2018-11-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -104,7 +96,7 @@
     
     <url>
     
-      <loc>/publication_types/</loc>
+      <loc>https://mattsams89.github.io/publication_types/</loc>
       <priority>0</priority>
     </url>
     
@@ -112,8 +104,8 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
-      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
+      <loc>https://mattsams89.github.io/categories/r/</loc>
+      <lastmod>2018-11-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -121,7 +113,7 @@
     
     <url>
     
-      <loc>/</loc>
+      <loc>https://mattsams89.github.io/</loc>
       <lastmod>2016-04-20T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
@@ -130,7 +122,7 @@
     
     <url>
     
-      <loc>/tags/sports-science/</loc>
+      <loc>https://mattsams89.github.io/tags/sports-science/</loc>
       <lastmod>2018-06-24T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -139,7 +131,7 @@
     
     <url>
     
-      <loc>/tags/</loc>
+      <loc>https://mattsams89.github.io/tags/</loc>
       <lastmod>2017-01-01T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
@@ -148,8 +140,8 @@
     
     <url>
     
-      <loc>/tags/workload-management/</loc>
-      <lastmod>2018-11-11T00:00:00+00:00</lastmod>
+      <loc>https://mattsams89.github.io/tags/workload-management/</loc>
+      <lastmod>2018-11-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
