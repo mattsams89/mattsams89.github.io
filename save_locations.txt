@@ -1,4 +1,0 @@
-# Image storage: content/post/folder name; referenced as /post/folder name/file
-# Header storage: static/img/headers; referenced as headers/file name; though maybe /img/headers?
-# File storage: content/post/folder name; referenced as /post/folder name/file
-# Bibliography: I think content/post/folder name; referenced as folder name/file
